@@ -1,0 +1,24 @@
+.el-table td,
+.el-table th{
+    text-align: center;
+}
+.el-row{
+    margin-bottom: 20px;
+}
+.el-row:nth-last-child(1){
+    margin-bottom: 0;
+}
+.edit-form{
+    padding: 10px;
+    margin: 60px auto 80px;
+    width: 460px;
+}
+.edit-form .form-submit{
+    text-align: right;
+}
+.edit-form .el-cascader{
+    width: 100%;
+}
+.edit-form .el-select{
+    width: 100%;
+}
