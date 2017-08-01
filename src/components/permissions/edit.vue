@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row>
-            <my-back title="新建项目"></my-back>
+            <my-back title="编辑项目"></my-back>
         </el-row>
         <el-row>
             <div class="edit-form">
@@ -14,13 +14,13 @@
                     </el-form-item>
                     <el-form-item label="Logo">
                         <el-upload
-                            class="upload-demo"
-                            action="admin_api/upload/logo"
-                            :file-list="fileList"
-                            :on-change="setLogoPath"
-                            list-type="picture">
+                        class="upload-demo"
+                        action="admin_api/upload/logo"
+                        :file-list="fileList"
+                        :on-change="setLogoPath"
+                        list-type="picture">
                         <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="接口通知Url" prop="notify_url">
@@ -30,17 +30,13 @@
                         <el-input type="textarea" placeholder="请描述项目" :rows="2" v-model="form.description"></el-input>
                     </el-form-item>
                     <el-form-item label="管理员" prop="admin_id">
-                        <!--
                         <el-cascader
                         :options="cascaderData"
                         :props="defaultProps"
                         :show-all-levels="false"
                         @change="changeAdmin"
                         placeholder="请选择管理员">
-                        </el-cascader>-->
-                        <el-select v-model="form.admin_id">
-                            <el-option v-for="item in admin_roles" :key="item.id" :value="item.id" :label="item.name"></el-option>
-                        </el-select>
+                        </el-cascader>
                     </el-form-item>
                     <el-form-item  class="form-submit">
                         <el-button type="primary" @click="submit">确定</el-button>
@@ -56,40 +52,23 @@
     export default{
         computed: mapGetters({
             form: 'projects/item',
-            rules: 'projects/rules',
-            admin_roles: 'projects/admin_roles',
-            logo_url: 'projects/logo_url',
+            rules: 'projects/rules'
         }),
-        data(){
-            return {
-                fileList: []
-            }
-        },
         mounted(){
+            let id = this.$route.query.id
             this.$store.commit('projects/resetItem')
+            this.$store.dispatch('projects/show',{id})
         },
         methods:{
             onCancel(){
                 this.$router.push({name: 'projects.index'})
-            },
-            setLogoPath(file,fileList){
-                this.fileList=[]
-				let name=file.name
-				let url= file.url
-				let obj={
-					name: name,
-					url: url
-				}
-				this.fileList.push(obj)
-				this.form.logo=file.url
+                console.log("执行")
             },
             submit(){
                 let that = this
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        this.$store.dispatch('projects/store',this.form).then(res=>{
-                            that.$router.push({name: 'projects.index'})
-                        })
+                        
                     } else {
                         return false
                     }

@@ -1,27 +1,47 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+import axios from 'axios'
 import {Message, MessageBox, Loading} from 'element-ui';
 
 import store from '@/store'
 import router from '@/router'
 
-Vue.use(VueResource)
+// Vue.use(axios)
+axios.defaults.baseURL = '/admin_api';
+// Vue.http.options.root = '/admin_api/'
 
-Vue.http.options.root = '/admin_api/'
+//请求拦截器
+// axios.interceptors.response.use(
+// 	response => {
+// 		if(response.status==200){
+// 			return response;
+// 		}
+// 	},
+// 	error => {
+//     if (error.response) {
+// 	    if(error.response.status==403){
+// 			// window.localStorage.removeItem('isLogin')
+// 			// window.location.reload()
+// 	    }else{
+// 	    	ElementUI.Message.error({
+// 	          message: '' +error.response.data[0]
+// 	        });
+// 	    }
+//     }
+//     return Promise.reject(error.response.data)   // 返回接口返回的错误信息
+// });
+// Vue.http.interceptors.push(function (request, next) {
+//     // Authorization, 注：不能写在外部，store尚未初始化
+//     Vue.http.headers.common['Authorization'] = 'Bearer ' + store.getters['auth/token'];
 
-Vue.http.interceptors.push(function (request, next) {
-    // Authorization, 注：不能写在外部，store尚未初始化
-    Vue.http.headers.common['Authorization'] = 'Bearer ' + store.getters['auth/token'];
-
-    // loading
-    let loadingInstance = Loading.service({fullscreen: true})
-    next(function (response) {
-        loadingInstance.close()
-    });
-})
+//     // loading
+//     let loadingInstance = Loading.service({fullscreen: true})
+//     next(function (response) {
+//         loadingInstance.close()
+//     });
+// })
 
 let success = function (response, options = {}) {
-    let res = response.body
+    let res = response
     if (undefined !== options.showSuccessMessage && options.showSuccessMessage) {
         let msg = ''
         if (undefined !== options.message && options.message) {
@@ -36,24 +56,15 @@ let success = function (response, options = {}) {
 }
 
 let error = function (response, options = {}) {
-    console.log(options)
-    if (undefined !== options.showErrorMessage && options.showErrorMessage) {
-        let msg = ''
-        if (undefined === response.body.errors) {
-            msg = response.body.message
-        } else {
-            msg = Object.values(response.body.errors)[0][0]
-        }
-        Message.error(msg)
-    }
-
-    if (401 === response.status) {
-        store.dispatch('auth/logout')
-    } else if (403 === response.status) {
-        router.push({name: 'errors.403'})
-    }
-
     return Promise.reject(response)
+    if(error.response.status==403){
+        // window.localStorage.removeItem('isLogin')
+        // window.location.reload()
+    }else{
+        Message.error({
+            message: '' +error.response.data[0]
+        });
+    }
 }
 
 let restUri = function (url, request, primary = 'id') {
@@ -86,16 +97,16 @@ export default {
     get(url, request, options = {}) {
         options.showSuccessMessage = undefined === options.showSuccessMessage ? false : options.showSuccessMessage
         options = getOptions(options)
-        return Vue.http.get(url, {params: request}).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.get(url, {params: request}).then(res => success(res, options)).catch(res => error(res, options))
     },
     post(url, request, options = {}) {
         options = getOptions(options)
-        return Vue.http.post(url, request).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.post(url, request).then(res => success(res, options)).catch(res => error(res, options))
     },
     put(url, request, options = {}) {
         options = getOptions(options)
         let {path, params} = restUri(url, request, options.primary)
-        return Vue.http.put(path, params).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.put(path, params).then(res => success(res, options)).catch(res => error(res, options))
     },
     delete(url, request, options = {}) {
         options.confirmMessage = undefined === options.confirmMessage ? '确认删除么?' : options.confirmMessage
@@ -106,7 +117,7 @@ export default {
             type: 'error'
         }).then(() => {
             let {path, params} = restUri(url, request, options.primary)
-            return Vue.http.delete(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
+            return axios.delete(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
         }).catch(() => {})
 
     },
@@ -114,6 +125,6 @@ export default {
         options.showSuccessMessage = undefined === options.showSuccessMessage ? false : options.showSuccessMessage
         options = getOptions(options)
         let {path, params} = restUri(url, request, options.primary)
-        return Vue.http.get(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.get(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
     },
 }

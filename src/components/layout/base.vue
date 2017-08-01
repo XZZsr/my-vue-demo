@@ -33,9 +33,9 @@
             margin-right: auto;
             margin-left: auto;
 
-            .box-card{
-                min-height: 800px;
-            }
+            // .box-card{
+            //     min-height: 800px;
+            // }
         }
         @media (min-width: 768px) {
             .container {

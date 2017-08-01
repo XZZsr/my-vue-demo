@@ -34,6 +34,7 @@
 </template>
 <script>
     import {mapGetters} from 'vuex'
+    import axios from 'axios'
     export  default{
         computed: mapGetters({
             user: 'auth/user',
@@ -46,7 +47,7 @@
         },
         methods: {
            login(){
-               this.$http.post('/admin_api/login',{
+               axios.post('login',{
                     account: 'admin@admin.com',
                     password: 'admin2108'
                 }).then(response => {

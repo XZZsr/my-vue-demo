@@ -35,7 +35,6 @@ module.exports = {
     			'^/admin_api':''
     		},
     		onError(err,req,res){
-    			console.log(err)
     			res.writeHead(200, {
 			        'Content-Type': 'text/plain'
 			    });

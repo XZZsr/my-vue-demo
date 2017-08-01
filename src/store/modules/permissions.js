@@ -1,6 +1,6 @@
 import api from '@/utils/api'
 
-const PATH = 'projects'
+const PATH = 'project_permissions'
 
 let resetItem = function () {
     return {
@@ -23,6 +23,13 @@ const state = {
 const getters = {
     list: state => state.list,
     item: state => state.item,
+    defaultProps(){ //级联选择器结构
+        return{
+            children: 'children',
+            label: 'name',
+            value: 'id'
+        }
+    },
     rules() {
         return {
             name: [
@@ -39,17 +46,6 @@ const getters = {
             ],
         }
     },
-    admin_roles(){
-        return [
-            {id: 5, name: '周雪娇'},
-            {id: 249, name: '陈诚'},
-            {id: 250, name: '徐先明'},
-            {id: 251, name: '吴娴'},
-        ]
-    },
-    logo_url(){
-        return 'http://qx-api.wanshengweiye.net/'
-    } 
 }
 
 const mutations = {
@@ -66,7 +62,8 @@ const mutations = {
 
 const actions = {
     async get({commit}, request) {
-        return api.get(PATH, request).then(res => {
+        let url = 'projects/'+request.id+'/permissions'
+        return api.get(url, request).then(res => {
             commit('setList', res.data.data.data)
             return res
         })

@@ -18,7 +18,7 @@
                     <template scope="scope">
                         <el-button type="text" @click="edit(scope.row.id)">编辑</el-button>
                         <el-button type="text" @click="remove(scope.row.id)">删除</el-button>
-                        <el-button type="text">设置</el-button>
+                        <el-button type="text" @click="detail(scope.row.id)">设置</el-button>
                         <!--
                         <el-button size="small" icon="edit" @click="editShow(scope.row.id)" type="primary"></el-button>
                         <el-button size="small" @click="deleteProject(scope.row.id)" icon="delete" type="danger"></el-button>
@@ -36,14 +36,27 @@
             list: 'projects/list',
         }),
         mounted(){
-            this.$store.dispatch('projects/get')
+            this.get()
         },
         methods:{
+            get(){
+                this.$store.dispatch('projects/get').then(res=>{
+                    console.log(res)
+                })
+            },
             create(){
                 this.$router.push({name: 'projects.create'})
             },
             edit(id){
                 this.$router.push({name: 'projects.edit',query:{id}})
+            },
+            remove(id){
+                this.$store.dispatch('projects/delete',{id}).then(res=>{
+                    this.get()
+                })
+            },
+            detail(id){
+                this.$router.push({name: 'project.index',query:{id}})
             }
         }
     }
