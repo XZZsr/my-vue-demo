@@ -1,7 +1,9 @@
 # vue开发模板
 
 # 前言
+
 我的vue的基本环境搭建
+
 #技术栈
 vue2 + vuex + vue-router + webpack + ES6/7 + vue-resource + sass
 
@@ -17,7 +19,9 @@ npm install
 npm run dev
 ```
 #说明
+
 因为没有接口，所以只是部署了目录
+
 #项目布局
 ```
 .
