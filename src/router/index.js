@@ -2,20 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import store from '@/store'
 
-import projects from './modules/projects'
+import test from './modules/test'
 
 Vue.use(Router)
 
 let arr = [
-    ...projects,
+    ...test,
 ]
-let groups = {}
-
-// arr.map(v => {
-//     let layout = (undefined ===  v.meta) || (undefined ===  v.meta.layout) ? 'base' : v.meta.layout
-//     let data = undefined === groups[layout] ? [] : groups[layout]
-//     groups[layout] = data.concat(v)
-// })
 
 let children = []
 
@@ -29,11 +22,14 @@ let routes = [
         children
     }
 ]
-console.log(routes)
 const router = new Router({routes})
 
-router.afterEach(route => {
-    let currentMenu = undefined === route.meta.menuRoute ? route.name : route.meta.menuRoute
+router.beforeEach((to, from, next) => {  //设置title
+    window.scrollTo(0, 0)
+
+    document.title = undefined === to.meta.title ? '默认信息' : to.meta.title
+
+    next()
 })
 
 export default router

@@ -9,18 +9,18 @@ Vue.use(VueResource)
 
 Vue.http.options.root = '/admin_api/'
 
-Vue.http.interceptors.push(function (request, next) {
+Vue.http.interceptors.push(function (request, next) {  //请求拦截器
     // Authorization, 注：不能写在外部，store尚未初始化
-    Vue.http.headers.common['Authorization'] = 'Bearer ' + store.getters['auth/token'];
+    Vue.http.headers.common['Authorization'] = 'Bearer ' + store.getters['test/token']; //token验证的添加方式
 
     // loading
-    let loadingInstance = Loading.service({fullscreen: true})
+    let loadingInstance = Loading.service({fullscreen: true}) //发送请求的时候 开启elementui的loading
     next(function (response) {
-        loadingInstance.close()
+        loadingInstance.close() //请求结束，关闭loading
     });
 })
 
-let success = function (response, options = {}) {
+let success = function (response, options = {}) {  //执行成功的时候使用elementui弹出出接口返回message的信息
     let res = response.body
     if (undefined !== options.showSuccessMessage && options.showSuccessMessage) {
         let msg = ''
@@ -35,7 +35,7 @@ let success = function (response, options = {}) {
     return Promise.resolve(response)
 }
 
-let error = function (response, options = {}) {
+let error = function (response, options = {}) {   //执行失败的时候使用elementui弹出出接口返回message的信息
     console.log(options)
     if (undefined !== options.showErrorMessage && options.showErrorMessage) {
         let msg = ''
@@ -56,7 +56,7 @@ let error = function (response, options = {}) {
     return Promise.reject(response)
 }
 
-let restUri = function (url, request, primary = 'id') {
+let restUri = function (url, request, primary = 'id') {  //重置url的方法，主要用来处理url的格式
     let req = Object.assign({}, request)
     let id = req[primary] || 0
     if (id > 0) {
@@ -69,11 +69,11 @@ let restUri = function (url, request, primary = 'id') {
     }
 }
 
-const defaultOptions = {
+const defaultOptions = {  //参数配置
     primary: 'id',
     message: '',
-    showSuccessMessage: true,
-    showErrorMessage: true,
+    showSuccessMessage: true, //成功时，弹窗是否显示
+    showErrorMessage: true, //失败时，弹窗是否显示
 }
 
 let getOptions = function (options = null) {
@@ -97,7 +97,7 @@ export default {
         let {path, params} = restUri(url, request, options.primary)
         return Vue.http.put(path, params).then(res => success(res, options)).catch(res => error(res, options))
     },
-    delete(url, request, options = {}) {
+    delete(url, request, options = {}) {   //删除加了个弹窗是否
         options.confirmMessage = undefined === options.confirmMessage ? '确认删除么?' : options.confirmMessage
         options = getOptions(options)
         return MessageBox.confirm(options.confirmMessage, '警告', {

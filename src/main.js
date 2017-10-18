@@ -11,23 +11,27 @@ import './assets/css/reset.css'
 // element ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+Vue.use(ElementUI)
 
 //style.css
 import './assets/css/style.css'
 
 //global
 import MyComponent from './components/global'
-
-Vue.use(ElementUI)
 Vue.use(MyComponent)
+
+// filter
+import filter from './utils/filter'  //不建议常用，官方已经不推荐
+
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    store,
+    filter,
+    template: '<App/>',
+    components: { App }
 })

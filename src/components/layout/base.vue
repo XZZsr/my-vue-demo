@@ -3,10 +3,13 @@
         <navbar></navbar>
         <div class="container">
             <el-card class="box-card">
-                <router-view></router-view>
+                <router-link to="/test">跳转路由</router-link>
+                <router-view>
+
+                </router-view>
             </el-card>
         </div>
-        
+
     </div>
 </template>
 
@@ -18,7 +21,7 @@
             navbar,
         },
         mounted(){
-            
+
         }
     }
 </script>
