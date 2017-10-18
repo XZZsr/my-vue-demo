@@ -28,8 +28,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/admin_api':{
-    		target: 'http://test.qx.checheng.net/admin_api/',
+      'api':{
+    		target: '',
     		changeOrigin: true,
     		pathRewrite: {
     			'^/admin_api':''
