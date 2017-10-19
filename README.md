@@ -1,11 +1,11 @@
-# vue开发模板
+# vue开发环境
 
 # 前言
-
 我的vue的基本环境搭建
 
-#技术栈
-vue2 + vuex + vue-router + webpack + ES6/7 + vue-resource + sass
+# 技术栈
+
+vue2 + vuex + vue-router + webpack + ES6 + axios + sass
 
 ## 项目运行
 
@@ -18,11 +18,12 @@ npm install
 
 npm run dev
 ```
-#说明
 
-因为没有接口，所以只是部署了目录
+# 说明
+没有多少代码，主要是环境搭建
 
-#项目布局
+# 项目布局
+
 ```
 .
 ├── build                                       // webpack配置文件
@@ -35,7 +36,7 @@ npm run dev
 │   │   │   ├── back.vue                        // 试验组件
 │   │   │   ├── index.js                        // 导出文件
 │   │   ├── layout                              // 布局组件
-│   │   └── test                                // 演示组件
+│   │   └── help-files                          // 演示组件
 │   ├── router                                  // 路由
 │   │   ├── modules                             // 路由模块
 │   │   └── index                               // 路由配置
