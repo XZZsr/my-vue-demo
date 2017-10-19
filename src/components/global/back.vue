@@ -15,7 +15,6 @@ export default{
         onCancel(){
             if(this.url){
                 this.$router.push({name: this.url})
-
                 return false
             }
             this.$router.go(-1)

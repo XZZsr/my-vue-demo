@@ -1,23 +1,26 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+import axios from 'axios'
 import {Message, MessageBox, Loading} from 'element-ui';
 
 import store from '@/store'
 import router from '@/router'
 
-Vue.use(VueResource)
+axios.defaults.baseURL = '/api/'
 
-Vue.http.options.root = '/admin_api/'
-
-Vue.http.interceptors.push(function (request, next) {  //请求拦截器
+let loadingInstance
+axios.interceptors.request.use(function (config) {
     // Authorization, 注：不能写在外部，store尚未初始化
-    Vue.http.headers.common['Authorization'] = 'Bearer ' + store.getters['test/token']; //token验证的添加方式
-
-    // loading
-    let loadingInstance = Loading.service({fullscreen: true}) //发送请求的时候 开启elementui的loading
-    next(function (response) {
-        loadingInstance.close() //请求结束，关闭loading
-    });
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters['help-files/token']; //token验证的添加方式
+    loadingInstance = Loading.service({fullscreen: true})
+    return config
+},function (error) {
+    return Promise.reject(error)
+})
+axios.interceptors.response.use(function (response) {
+    loadingInstance.close()
+    return response
+},function (error) {
+    return Promise.reject(error)
 })
 
 let success = function (response, options = {}) {  //执行成功的时候使用elementui弹出出接口返回message的信息
@@ -86,16 +89,16 @@ export default {
     get(url, request, options = {}) {
         options.showSuccessMessage = undefined === options.showSuccessMessage ? false : options.showSuccessMessage
         options = getOptions(options)
-        return Vue.http.get(url, {params: request}).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.get(url, {params: request}).then(res => success(res, options)).catch(res => error(res, options))
     },
     post(url, request, options = {}) {
         options = getOptions(options)
-        return Vue.http.post(url, request).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.post(url, request).then(res => success(res, options)).catch(res => error(res, options))
     },
     put(url, request, options = {}) {
         options = getOptions(options)
         let {path, params} = restUri(url, request, options.primary)
-        return Vue.http.put(path, params).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.put(path, params).then(res => success(res, options)).catch(res => error(res, options))
     },
     delete(url, request, options = {}) {   //删除加了个弹窗是否
         options.confirmMessage = undefined === options.confirmMessage ? '确认删除么?' : options.confirmMessage
@@ -106,7 +109,7 @@ export default {
             type: 'error'
         }).then(() => {
             let {path, params} = restUri(url, request, options.primary)
-            return Vue.http.delete(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
+            return axios.delete(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
         }).catch(() => {})
 
     },
@@ -114,6 +117,6 @@ export default {
         options.showSuccessMessage = undefined === options.showSuccessMessage ? false : options.showSuccessMessage
         options = getOptions(options)
         let {path, params} = restUri(url, request, options.primary)
-        return Vue.http.get(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
+        return axios.get(path, {params}).then(res => success(res, options)).catch(res => error(res, options))
     },
 }

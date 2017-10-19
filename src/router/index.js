@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import store from '@/store'
 
-import test from './modules/test'
+import helpFiles from './modules/help-files'
 
 Vue.use(Router)
 
 let arr = [
-    ...test,
+    ...helpFiles,
 ]
 
 let children = []
@@ -18,6 +18,7 @@ for (let i in arr) {
 let routes = [
     {
         path: '/',
+        name: 'index',
         component: require('@/components/layout/base.vue'),
         children
     }

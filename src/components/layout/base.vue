@@ -2,14 +2,13 @@
     <div class="layout">
         <navbar></navbar>
         <div class="container">
-            <el-card class="box-card">
-                <router-link to="/test">跳转路由</router-link>
-                <router-view>
-
-                </router-view>
-            </el-card>
+            <el-row>
+                <el-button @click="linkTo">列表页面</el-button>
+            </el-row>
+            <el-row>
+                <router-view></router-view>
+            </el-row>
         </div>
-
     </div>
 </template>
 
@@ -19,6 +18,11 @@
     export default{
         components: {
             navbar,
+        },
+        methods:{
+            linkTo(){
+                this.$router.push({name:'help-files.index'})
+            }
         },
         mounted(){
 
@@ -35,10 +39,8 @@
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
-
-            .box-card{
-                min-height: 800px;
-            }
+            background-color: #fff;
+            min-height: 800px;
         }
         @media (min-width: 768px) {
             .container {
