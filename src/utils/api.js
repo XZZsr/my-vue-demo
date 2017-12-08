@@ -10,7 +10,7 @@ axios.defaults.baseURL = '/api/'
 let loadingInstance
 axios.interceptors.request.use(function (config) {
     // Authorization, 注：不能写在外部，store尚未初始化
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters['help-files/token']; //token验证的添加方式
+    //axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters['token']; //token验证的添加方式
     loadingInstance = Loading.service({fullscreen: true})
     return config
 },function (error) {

@@ -1,23 +1,31 @@
 <template>
     <div class="layout">
-        <navbar></navbar>
-        <div class="container">
-            <el-row>
-                <el-button @click="linkTo">列表页面</el-button>
-            </el-row>
-            <el-row>
-                <router-view></router-view>
-            </el-row>
+        <div class="el-header">
+            <base-navbar></base-navbar>
         </div>
+        <el-container>
+            <base-slider></base-slider>
+            <el-container>
+                <el-main>Main</el-main>
+                <el-footer>
+                    <base-footer></base-footer>
+                </el-footer>
+            </el-container>
+        </el-container>
     </div>
+
 </template>
 
 <script>
-    import navbar from './_navbar.vue'
+    import baseNavbar from './_navbar.vue'
+    import baseSlider from './_slider.vue'
+    import baseFooter from './_footer.vue'
 
     export default{
         components: {
-            navbar,
+            baseNavbar,
+            baseSlider,
+            baseFooter
         },
         methods:{
             linkTo(){
@@ -31,31 +39,5 @@
 </script>
 
 <style lang="scss">
-    body,html{
-        background-color: #f4f4f4;
-
-        .container {
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-            background-color: #fff;
-            min-height: 800px;
-        }
-        @media (min-width: 768px) {
-            .container {
-                width: 750px;
-            }
-        }
-        @media (min-width: 992px) {
-            .container {
-                width: 970px;
-            }
-        }
-        @media (min-width: 1200px) {
-            .container {
-                width: 1170px;
-            }
-        }
-    }
+    @import '../../assets/css/style.scss';
 </style>

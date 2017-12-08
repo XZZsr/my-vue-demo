@@ -13,8 +13,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
-//style.css
-import './assets/css/style.css'
 
 //global
 import MyComponent from './components/global'

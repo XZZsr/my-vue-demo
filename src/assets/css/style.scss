@@ -1,0 +1,19 @@
+
+html,body{
+    background: #fff;
+    height: 100%;
+
+    .el-header{
+        color: #fff;
+        background-color: #409EFF;
+    }
+    .el-container,
+    .layout{
+        height: 100%;
+    }
+    @media screen and (max-width: 768px) {
+        .el-header{
+            padding: 0;
+        }
+    }
+}

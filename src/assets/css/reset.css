@@ -32,7 +32,7 @@ footer,header,hgroup,menu,nav,section {
     display:block;
 }
 
-nav ul {
+nav, ul {
     list-style:none;
 }
 
