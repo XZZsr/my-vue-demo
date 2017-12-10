@@ -1,33 +1,27 @@
 <template>
     <div class="base-slider" :class="{active:sliderToggle}">
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo"
-                 :collapse="collapseStatus">
+        <el-menu :default-active="defaultActive" class="el-menu-vertical-demo"
+                 :collapse="collapseStatus"
+                  @select="handleSelect">
+                 
+            <el-menu-item index="demo.demo1">
+                <i class="el-icon-menu"></i>
+                <span slot="title">导航一</span>
+            </el-menu-item>
+            <el-menu-item index="demo.demo2">
+                <i class="el-icon-setting"></i>
+                <span slot="title">导航二</span>
+            </el-menu-item>
             <el-submenu index="1">
                 <template slot="title">
                     <i class="el-icon-location"></i>
-                    <span slot="title">导航一</span>
+                    <span slot="title">通用页面</span>
                 </template>
                 <el-menu-item-group>
-                    <span slot="title">分组一</span>
-                    <el-menu-item index="1-1">选项1</el-menu-item>
-                    <el-menu-item index="1-2">选项2</el-menu-item>
+                    <el-menu-item index="others.404">404</el-menu-item>
+                    <el-menu-item index="others.500">500</el-menu-item>
                 </el-menu-item-group>
-                <el-menu-item-group title="分组2">
-                    <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-menu-item-group>
-                <el-submenu index="1-4">
-                    <span slot="title">选项4</span>
-                    <el-menu-item index="1-4-1">选项1</el-menu-item>
-                </el-submenu>
             </el-submenu>
-            <el-menu-item index="2">
-                <i class="el-icon-menu"></i>
-                <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="3">
-                <i class="el-icon-setting"></i>
-                <span slot="title">导航三</span>
-            </el-menu-item>
         </el-menu>
         <div class="collapse">
             <el-switch
@@ -40,9 +34,14 @@
 <script>
     import {mapGetters} from 'vuex'
     export  default{
-        computed: mapGetters({ //获取vuex的getter
-            sliderToggle: 'common/sliderToggle'
-        }),
+        computed: {
+            ...mapGetters({ //获取vuex的getter
+                sliderToggle: 'common/sliderToggle'
+            }),
+            defaultActive(){
+                return this.$route.name
+            }
+        },
         data(){
             return{
                 collapseStatus: false,
@@ -52,6 +51,9 @@
             changeCollapse(val){
                 this.collapseStatus = val
             },
+            handleSelect(key){
+                this.$router.push({name:key})
+            }
         }
     }
 </script>

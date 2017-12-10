@@ -6,7 +6,9 @@
         <el-container>
             <base-slider></base-slider>
             <el-container>
-                <el-main>Main</el-main>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
                 <el-footer>
                     <base-footer></base-footer>
                 </el-footer>

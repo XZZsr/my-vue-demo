@@ -39,7 +39,6 @@ let success = function (response, options = {}) {  //执行成功的时候使用
 }
 
 let error = function (response, options = {}) {   //执行失败的时候使用elementui弹出出接口返回message的信息
-    console.log(options)
     if (undefined !== options.showErrorMessage && options.showErrorMessage) {
         let msg = ''
         if (undefined === response.body.errors) {
@@ -50,10 +49,8 @@ let error = function (response, options = {}) {   //执行失败的时候使用e
         Message.error(msg)
     }
 
-    if (401 === response.status) {
-        store.dispatch('auth/logout')
-    } else if (403 === response.status) {
-        router.push({name: 'errors.403'})
+    if (500 === response.status) {
+        router.push({name: 'common.500'})
     }
 
     return Promise.reject(response)

@@ -1,14 +1,5 @@
 import api from '@/utils/api'
-
-const PATH = 'help-files'  //url前缀
-
 const namespaced = true
-
-let resetItem = function () {
-    return{
-        id: '',
-    }
-}
 
 const state = {
     sliderToggle: false,
